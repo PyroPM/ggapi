@@ -1,0 +1,16 @@
+[package]
+name = "ggapi"
+version = "0.1.0"
+edition = "2021"
+license = "MIT"
+description = "A library for communicating with start.gg's API."
+homepage = "crates.io/crates/ggapi"
+documentation = "docs.rs/ggapi/latest"
+repository = "https://github.com/pyropm/ggapi"
+readme = "https://github.com/PyroPM/ggapi/blob/main/README.md"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+gql_client = "1.0.7"
+serde = "1.0.174"
