@@ -7,7 +7,7 @@ description = "A library for communicating with start.gg's API."
 homepage = "crates.io/crates/ggapi"
 documentation = "docs.rs/ggapi/latest"
 repository = "https://github.com/pyropm/ggapi"
-readme = "https://github.com/PyroPM/ggapi/blob/main/README.md"
+readme = "README.md"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
