@@ -4,7 +4,7 @@ A library for communicating with start.gg's API.
 ## Usage
 ```rs
 let data = get_tournament_info(
-    "evo","INSERT_TOKEN_HERE"
+    "evo-2023","INSERT_TOKEN_HERE"
 ).await;
 
 println!("{}", data.tournament().name());
