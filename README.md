@@ -2,7 +2,7 @@
 A library for communicating with start.gg's API.
 
 ## Usage
-```rs
+```rust
 let data = get_tournament_info(
     "evo-2023","INSERT_TOKEN_HERE"
 ).await;
