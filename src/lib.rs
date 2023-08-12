@@ -12,11 +12,16 @@ use serde::{
     Serialize,
 };
 
-pub mod user;
 pub mod entrant;
-pub mod participant;
 pub mod event;
+pub mod participant;
+pub mod phase;
+pub mod phase_group;
+pub mod player;
+pub mod progression;
+pub mod seed;
 pub mod tournament;
+pub mod user;
 
 //////////////////////////////////////////////////
 // structures for start.gg schema
@@ -89,51 +94,21 @@ pub async fn get_tournament_info(
             events {
                 id
                 name
-            }
-        }
-      }      
-    "#;
-
-    
-    /*let query = r#"
-    query GetTournamentInfo($slug: String!) {
-        tournament(slug: $slug) {
-            id
-            name
-            slug
-            shortSlug
-            startAt
-            events {
-                id
-                name
-                entrants(query: {perPage: 500, page: 1}) {
-                    pageInfo {
-                        total
-                        totalPages
-                    }
-                    nodes {
-                        id
-                    }
-                }
-            }
-            participants(query: {perPage: 500, page: 1}) {
-                nodes {
+                phases {
                     id
-                    gamerTag
-                    prefix
-                    user {
-                        discriminator
-                        name
-                    }
-                    entrants {
-                        id
+                    name
+                    phaseGroups(query: { page: 1, perPage: 100 }) {
+                        nodes {
+                            id
+                            displayIdentifier
+                        }
                     }
                 }
+                slug
             }
         }
-      }      
-    "#;*/
-    
+    }
+    "#;
 
     let vars = Vars { slug: slug.to_string(), page: 1, per_page: 100 };
 

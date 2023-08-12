@@ -1,6 +1,6 @@
 [package]
 name = "ggapi"
-version = "0.2.1"
+version = "0.2.2"
 edition = "2021"
 license = "MIT"
 description = "A library for communicating with start.gg's API."
@@ -8,8 +8,6 @@ homepage = "https://crates.io/crates/ggapi"
 documentation = "https://docs.rs/ggapi/latest"
 repository = "https://github.com/pyropm/ggapi"
 readme = "README.md"
-
-# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
 chrono = "0.4.26"

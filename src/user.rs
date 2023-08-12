@@ -6,6 +6,7 @@ use serde::{
 
 use crate::{
     event::*,
+    player::*,
     tournament::*,
 };
 
@@ -15,26 +16,26 @@ use crate::{
 /// Given each is an option and not a requirement, a method is included for each element with the same name.
 /// These methods will unwrap and return the proper value without any unwrapping or references needed.
 /// Certain methods (see tournaments()) will return a vector of the data type instead of a connection to a vector, done to simplify the API and make the start.gg api easier to work with.
-#[derive(Clone, Serialize, Deserialize)]
+#[derive(Clone, Default, Serialize, Deserialize)]
 pub struct GGUser {
 
-    // authorizations: Option<Vec<GGProfileAuthorization>>
-    bio:            Option<String>,
-    birthday:       Option<String>,
-    discriminator:  Option<String>,
-    email:          Option<String>,
-    events:         Option<GGEvents>,
+    // pub authorizations: Option<Vec<GGProfileAuthorization>>
+    pub bio:            Option<String>,
+    pub birthday:       Option<String>,
+    pub discriminator:  Option<String>,
+    pub email:          Option<String>,
+    pub events:         Option<GGEvents>,
 
     #[serde(rename(serialize = "genderPronoun", deserialize = "genderPronoun"))]
-    gender_pronoun: Option<String>,
-    id:             Option<i64>,
-    // images:         Option<Vec<Image>>
-    // leagues:        Option<GGLeagues>
-    // location:       Option<GGAddress>
-    name:           Option<String>,
-    // player:         Option<Player>
-    slug:           Option<String>,
-    tournaments:    Option<GGTournaments>,
+    pub gender_pronoun: Option<String>,
+    pub id:             Option<i64>,
+    // pub images:         Option<Vec<Image>>
+    // pub leagues:        Option<GGLeagues>
+    // pub location:       Option<GGAddress>
+    pub name:           Option<String>,
+    pub player:         Option<Box<GGPlayer>>,
+    pub slug:           Option<String>,
+    pub tournaments:    Option<GGTournaments>,
 
 }
 
@@ -126,6 +127,17 @@ impl GGUser {
         let mut result: String = "".to_string();
         if self.name.is_some() {
             result = self.name.clone().unwrap().clone();
+        }
+        return result;
+    }
+
+    /// Returns the player of the user.
+    ///
+    /// Returns an empty player if not set or wasn't queried.
+    pub fn player(&self) -> GGPlayer {
+        let mut result: GGPlayer = Default::default();
+        if self.player.is_some() {
+            result = *self.player.as_ref().unwrap().clone();
         }
         return result;
     }
