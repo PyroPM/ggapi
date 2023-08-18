@@ -16,11 +16,18 @@ use crate::{
     tournament::*,
 };
 
+/// Equivalent for start.gg EventConnection.
 #[derive(Clone, Default, Serialize, Deserialize)]
 pub struct GGEvents {
     pub nodes: Vec<GGEvent>,
 }
 
+/// Equivalent for start.gg Event.
+///
+/// Each element in the structure is optional, allowing a user to only query values they want.
+/// Given each is an option and not a requirement, a method is included for each element with the same name.
+/// These methods will unwrap and return the proper value without any unwrapping or references needed.
+/// Certain methods (see entrants()) will return a vector of the data type instead of a connection to a vector, done to simplify the API and make the start.gg api easier to work with.
 #[derive(Clone, Default, Serialize, Deserialize)]
 pub struct GGEvent {
     

@@ -20,6 +20,11 @@ pub struct GGParticipants {
     pub nodes: Vec<GGParticipant>,
 }
 
+/// Equivalent for start.gg Participant.
+///
+/// Each element in the structure is optional, allowing a user to only query values they want.
+/// Given each is an option and not a requirement, a method is included for each element with the same name.
+/// These methods will unwrap and return the proper value without any unwrapping or references needed.
 #[derive(Clone, Default, Serialize, Deserialize)]
 pub struct GGParticipant {
 

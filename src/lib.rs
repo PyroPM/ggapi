@@ -7,40 +7,13 @@ use gql_client::{
 };
 
 use std::collections::HashMap;
-use serde::{
-    Deserialize,
-    Serialize,
-};
+use serde::Serialize;
 
-pub mod entrant;
-pub mod event;
-pub mod participant;
-pub mod phase;
-pub mod phase_group;
-pub mod player;
-pub mod progression;
-pub mod seed;
-pub mod tournament;
-pub mod user;
+pub mod structs;
 
-//////////////////////////////////////////////////
-// structures for start.gg schema
-//////////////////////////////////////////////////
+pub use structs::*;
 
-#[derive(Serialize, Deserialize)]
-pub struct GGData {
-    tournament: Option<tournament::GGTournament>,
-}
-
-impl GGData {
-
-    /// Returns a tournament from a query.
-    pub fn tournament(&self) -> &tournament::GGTournament {
-        return self.tournament.as_ref().unwrap();
-    }
-
-}
-
+/// Variables for a query.
 #[derive(Serialize)]
 pub struct Vars {
     pub slug: String,
@@ -48,11 +21,10 @@ pub struct Vars {
     pub per_page: u32,
 }
 
-//////////////////////////////////////////////////
-// helper functions
-//////////////////////////////////////////////////
-
-async fn execute_query(
+/// Execute a query.
+///
+/// When given a token, query, and a set of variables, this function will execute a query and return a deserialized object.
+pub async fn execute_query(
     token: &str,
     query: &str,
     vars: Vars,
@@ -74,10 +46,9 @@ async fn execute_query(
     return data.unwrap();
 }
 
-//////////////////////////////////////////////////
-// general functions
-//////////////////////////////////////////////////
-
+/// Get some basic tournament information.
+///
+/// Returns the tournament id, name, slug, short slug, as well as a list of events, phases within those events, and all of the phase groups in each phase.
 pub async fn get_tournament_info(
     slug: &str,
     token: &str,

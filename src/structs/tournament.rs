@@ -11,6 +11,7 @@ use serde::{
 
 use crate::{
     event::*,
+    image::*,
     participant::*,
     user::*,
 };
@@ -31,93 +32,93 @@ pub struct GGTournaments {
 pub struct GGTournament {
     
     #[serde(rename(serialize = "addrState",                 deserialize = "addrState"))]
-    pub addr_state:                     Option<String>,         // state address
-    pub admins:                         Option<Vec<GGUser>>,    // tournament admins
-    pub city:                           Option<String>,         // city
+    pub addr_state:                     Option<String>,
+    pub admins:                         Option<Vec<GGUser>>,
+    pub city:                           Option<String>,
     
     #[serde(rename(serialize = "countryCode",               deserialize = "countryCode"))]
-    pub country_code:                   Option<String>,         // country code
+    pub country_code:                   Option<String>,
     
     #[serde(rename(serialize = "createdAt",                 deserialize = "createdAt"))]
-    pub created_at:                     Option<i64>,            // timestamp of creation date
-    pub currency:                       Option<String>,         // 
+    pub created_at:                     Option<i64>,
+    pub currency:                       Option<String>,
     
     #[serde(rename(serialize = "endAt",                     deserialize = "endAt"))]
-    pub end_at:                         Option<i64>,            // timestamp of estimated end time
+    pub end_at:                         Option<i64>,
 
     #[serde(rename(serialize = "eventRegistrationClosesAt", deserialize = "eventRegistrationClosesAt"))]
-    pub event_registration_closes_at:   Option<i64>,            // timestamp of event registration end time
-    pub events:                         Option<Vec<GGEvent>>,   // list of events
+    pub event_registration_closes_at:   Option<i64>,
+    pub events:                         Option<Vec<GGEvent>>,
     
     #[serde(rename(serialize = "hasOfflineEvents",          deserialize = "hasOfflineEvents"))]
-    pub has_offline_events:             Option<bool>,           // if the tournament has offline events
-    
+    pub has_offline_events:             Option<bool>,
+
     #[serde(rename(serialize = "hasOnlineEvents",           deserialize = "hasOnlineEvents"))]
-    pub has_online_events:              Option<bool>,           // if the tournament has online events
-    pub hashtag:                        Option<String>,         // 
-    pub id:                             Option<i64>,            // tournament id
-    // pub images:                         Option<Vec<GGImage>>,
+    pub has_online_events:              Option<bool>,
+    pub hashtag:                        Option<String>,
+    pub id:                             Option<i64>,
+    pub images:                         Option<Vec<GGImage>>,
     
     #[serde(rename(serialize = "isOnline",                  deserialize = "isOnline"))]
-    pub is_online:                      Option<bool>,           // if the tournament is online
+    pub is_online:                      Option<bool>,
     
     #[serde(rename(serialize = "isRegistrationOpen",        deserialize = "isRegistrationOpen"))]
-    pub is_registration_open:           Option<bool>,           // if registration is open
-    pub lat:                            Option<f64>,            // latitude
+    pub is_registration_open:           Option<bool>,
+    pub lat:                            Option<f64>,
     // pub links
-    pub lng:                            Option<f64>,            // longitude
+    pub lng:                            Option<f64>,
     
     #[serde(rename(serialize = "mapsPlaceId",               deserialize = "mapsPlaceId"))]
-    pub maps_place_id:                  Option<String>,         // 
-    pub name:                           Option<String>,         // tournament name
+    pub maps_place_id:                  Option<String>,
+    pub name:                           Option<String>,
     
     #[serde(rename(serialize = "numAttendees",              deserialize = "numAttendees"))]
-    pub num_attendees:                  Option<i64>,            // number of total attendees
-    pub owner:                          Option<Box<GGUser>>,    // tournament organizer
-    pub participants:                   Option<GGParticipants>, // list of participants
+    pub num_attendees:                  Option<i64>,
+    pub owner:                          Option<Box<GGUser>>,
+    pub participants:                   Option<GGParticipants>,
     
     #[serde(rename(serialize = "postalCode",                deserialize = "postalCode"))]
-    pub postal_code:                    Option<String>,         // 
+    pub postal_code:                    Option<String>,
     
     #[serde(rename(serialize = "primaryContact",            deserialize = "primaryContact"))]
-    pub primary_contact:                Option<String>,         // contact info
+    pub primary_contact:                Option<String>,
     
     #[serde(rename(serialize = "primaryContactType",        deserialize = "primaryContactType"))]
-    pub primary_contact_type:           Option<String>,         // contact type
+    pub primary_contact_type:           Option<String>,
     // publishing: JSON
     
     #[serde(rename(serialize = "registrationClosesAt",      deserialize = "registrationClosesAt"))]
-    pub registration_closes_at:         Option<i64>,            // timestamp of registration end time
-    pub rules:                          Option<String>,         // tournament rules
+    pub registration_closes_at:         Option<i64>,
+    pub rules:                          Option<String>,
     
     #[serde(rename(serialize = "shortSlug",                 deserialize = "shortSlug"))]
-    pub short_slug:                     Option<String>,         // shortened slug for tournament
-    pub slug:                           Option<String>,         // 
+    pub short_slug:                     Option<String>,
+    pub slug:                           Option<String>,
     
     #[serde(rename(serialize = "startAt",                   deserialize = "startAt"))]
-    pub start_at:                       Option<i64>,            // timestamp of start time
-    pub state:                          Option<i64>,            // current tournament state
+    pub start_at:                       Option<i64>,
+    pub state:                          Option<i64>,
     // pub stations
     // pub streamQueue
     // pub streams
     
     #[serde(rename(serialize = "teamCreationClosesAt",      deserialize = "teamCreationClosesAt"))]
-    pub team_creation_closes_at:        Option<i64>,            // timestamp of team creation end time
+    pub team_creation_closes_at:        Option<i64>,
     // pub teams
-    pub timezone:                       Option<String>,         // 
+    pub timezone:                       Option<String>,
     
     #[serde(rename(serialize = "tournamentType",            deserialize = "tournamentType"))]
-    pub tournament_type:                Option<i64>,            // ??
+    pub tournament_type:                Option<i64>,
     
     #[serde(rename(serialize = "updatedAt",                 deserialize = "updatedAt"))]
-    pub updated_at:                     Option<i64>,            // timestamp of last update
-    pub url:                            Option<String>,         // 
+    pub updated_at:                     Option<i64>,
+    pub url:                            Option<String>,
     
     #[serde(rename(serialize = "venueAddress",              deserialize = "venueAddress"))]
-    pub venue_address:                  Option<String>,         // address of venue
+    pub venue_address:                  Option<String>,
     
     #[serde(rename(serialize = "venueName",                 deserialize = "venueName"))]
-    pub venue_name:                     Option<String>,         // name of venue
+    pub venue_name:                     Option<String>,
     // pub waves
 
 }
@@ -267,6 +268,19 @@ impl GGTournament {
         let mut result: i64 = 0;
         if self.id.is_some() {
             result = self.id.unwrap().clone();
+        }
+        return result;
+    }
+
+    /// Returns the images of the tournament.
+    ///
+    /// Returns an empty vector if not set or wasn't queried.
+    pub fn images(&self) -> Vec<GGImage> {
+        let mut result: Vec<GGImage> = Vec::new();
+        if self.images.is_some() {
+            for image in self.images.as_ref().unwrap() {
+                result.push(image.clone());
+            }
         }
         return result;
     }
