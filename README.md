@@ -68,29 +68,29 @@ If you want to help contribute to the project, pull requests are encouraged! Mos
 
 ## Todo
 - Complete remaining structures missing from the library
-    - action_set (ActionSet)
-    - bracket_config (BracketConfig)
-    - event_team (EventTeam, EventTeamConnection)
-    - global_team (GlobalTeam)
-    - league (League, LeagueConnection)
-    - match_config (MatchConfig)
-    - page_info (PageInfo)
-    - set (Set, SetConnection)
-    - set_slot (SetSlot)
-    - shop (Shop)
-    - shop_level (ShopLevel, ShopLevelConnection)
-    - shop_order_message (ShopOrderMessage, ShopOrderMesageConnection)
-    - standing (Standing, StandingConnection)
-    - standing_stats (StandingStats)
-    - stations (Stations, StationsConnection)
-    - stream_queue (StreamQueue)
-    - streams (Streams)
-    - team (Team, TeamConnection)
-    - team_action_set (TeamActionSet)
-    - team_member (TeamMember)
-    - team_roster_size (TeamRosterSize)
-    - tournament_links (TournamentLinks)
-    - wave (Wave)
+    - **action_set (ActionSet)**
+    - **bracket_config (BracketConfig)**
+    - ~~event_team (EventTeam, EventTeamConnection)~~
+    - ~~global_team (GlobalTeam)~~
+    - **league (League, LeagueConnection)**
+    - **match_config (MatchConfig)**
+    - ~~page_info (PageInfo)~~
+    - **set (Set, SetConnection)**
+    - **set_slot (SetSlot)**
+    - **shop (Shop)**
+    - **shop_level (ShopLevel, ShopLevelConnection)**
+    - **shop_order_message (ShopOrderMessage, ShopOrderMesageConnection)**
+    - **standing (Standing, StandingConnection)**
+    - **standing_stats (StandingStats)**
+    - **stations (Stations, StationsConnection)**
+    - ~~stream_queue (StreamQueue)~~
+    - ~~streams (Streams)~~
+    - ~~team (Team, TeamConnection)~~
+    - ~~team_action_set (TeamActionSet)~~
+    - ~~team_member (TeamMember)~~
+    - ~~team_roster_size (TeamRosterSize)~~
+    - ~~tournament_links (TournamentLinks)~~
+    - **wave (Wave)**
 - Finish existing structure implementations by adding missing types
     - Some types that were made first had a few missing values while the rest of the structures were being implemented. Those were commented out in each structure where they would be placed, but have not yet been completed implemented. Once every structure is implemented above, complete a sweep of each structure and fill out the rest of the structure.
 - Implement enums for start.gg types
