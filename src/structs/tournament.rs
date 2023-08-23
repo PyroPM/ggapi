@@ -12,14 +12,31 @@ use serde::{
 use crate::{
     event::*,
     image::*,
+    page_info::*,
     participant::*,
     user::*,
 };
 
 /// Equivalent for start.gg TournamentConnection.
 #[derive(Clone, Default, Serialize, Deserialize)]
-pub struct GGTournaments {
-    pub nodes: Vec<GGTournament>,
+pub struct GGTournamentConnection {
+    pub nodes:      Vec<GGTournament>,
+    pub page_info:  Option<Box<GGPageInfo>>,
+}
+
+impl GGTournamentConnection {
+
+    /// Returns the page info of the connection.
+    ///
+    /// Returns empty page info if not set or wasn't queried.
+    pub fn page_info(&self) -> GGPageInfo {
+        let mut result: GGPageInfo = Default::default();
+        if self.page_info.is_some() {
+            result = *self.page_info.as_ref().unwrap().clone();
+        }
+        return result;
+    }
+
 }
 
 /// Equivalent for start.gg Tournament.
@@ -75,7 +92,7 @@ pub struct GGTournament {
     #[serde(rename(serialize = "numAttendees",              deserialize = "numAttendees"))]
     pub num_attendees:                  Option<i64>,
     pub owner:                          Option<Box<GGUser>>,
-    pub participants:                   Option<GGParticipants>,
+    pub participants:                   Option<GGParticipantConnection>,
     
     #[serde(rename(serialize = "postalCode",                deserialize = "postalCode"))]
     pub postal_code:                    Option<String>,

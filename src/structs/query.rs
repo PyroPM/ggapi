@@ -44,10 +44,10 @@ pub struct GGData {
     // pub stream_queue:   Option<stream_queue::GGStreamQueue>,
     // pub team:           Option<team::GGTeam>,
     pub tournament:     Option<Box<GGTournament>>,
-    pub tournaments:    Option<Box<GGTournaments>>,
+    pub tournaments:    Option<Box<GGTournamentConnection>>,
     pub user:           Option<Box<GGUser>>,
     pub videogame:      Option<Box<GGVideogame>>,
-    pub videogames:     Option<Box<GGVideogames>>,
+    pub videogames:     Option<Box<GGVideogameConnection>>,
 
 }
 

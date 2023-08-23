@@ -12,12 +12,29 @@ use serde::{
 use crate::{
     entrant::*,
     event::*,
+    page_info::*,
     user::*,
 };
 
 #[derive(Clone, Default, Serialize, Deserialize)]
-pub struct GGParticipants {
-    pub nodes: Vec<GGParticipant>,
+pub struct GGParticipantConnection {
+    pub nodes:      Vec<GGParticipant>,
+    pub page_info:  Option<Box<GGPageInfo>>,
+}
+
+impl GGParticipantConnection {
+
+    /// Returns the page info of the connection.
+    ///
+    /// Returns empty page info if not set or wasn't queried.
+    pub fn page_info(&self) -> GGPageInfo {
+        let mut result: GGPageInfo = Default::default();
+        if self.page_info.is_some() {
+            result = *self.page_info.as_ref().unwrap().clone();
+        }
+        return result;
+    }
+
 }
 
 /// Equivalent for start.gg Participant.

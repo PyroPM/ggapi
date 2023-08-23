@@ -25,12 +25,12 @@ pub struct GGGlobalTeam {
     pub event:              Option<Box<GGEvent>>,
 
     #[serde(rename(serialize = "eventTeams",    deserialize = "eventTeams"))]
-    pub event_teams:        Option<GGEventTeams>,
+    pub event_teams:        Option<GGEventTeamConnection>,
     pub id:                 Option<i64>,
     pub images:             Option<Vec<GGImage>>,
 
     #[serde(rename(serialize = "leagueTeams",   deserialize = "leagueTeams"))]
-    pub league_teams:       Option<GGEventTeams>,
+    pub league_teams:       Option<GGEventTeamConnection>,
     pub members:            Option<Vec<GGTeamMember>>,
     pub name:               Option<String>,
 

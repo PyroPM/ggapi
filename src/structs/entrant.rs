@@ -6,13 +6,30 @@ use serde::{
 
 use crate::{
     event::*,
+    page_info::*,
     participant::*,
 };
 
 /// Equivalent for start.gg EntrantConnection.
 #[derive(Clone, Serialize, Deserialize)]
-pub struct GGEntrants {
-    pub nodes: Vec<GGEntrant>,
+pub struct GGEntrantConnection {
+    pub nodes:      Vec<GGEntrant>,
+    pub page_info:  Option<Box<GGPageInfo>>,
+}
+
+impl GGEntrantConnection {
+
+    /// Returns the page info of the connection.
+    ///
+    /// Returns empty page info if not set or wasn't queried.
+    pub fn page_info(&self) -> GGPageInfo {
+        let mut result: GGPageInfo = Default::default();
+        if self.page_info.is_some() {
+            result = *self.page_info.as_ref().unwrap().clone();
+        }
+        return result;
+    }
+
 }
 
 /// Equivalent for start.gg Entrant.
@@ -35,7 +52,7 @@ pub struct GGEntrant {
     pub name:               Option<String>,
 
     // #[serde(rename(serialize = "paginatedSets",     deserialize = "paginatedSets"))]
-    // pub paginated_sets:     Option<GGSets>,
+    // pub paginated_sets:     Option<GGSetConnection>,
     pub participants:       Option<Vec<GGParticipant>>,
     // pub seeds:              Option<Vec<GGSeed>>,
     pub skill:              Option<i64>,

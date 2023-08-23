@@ -7,12 +7,29 @@ use serde::{
 use crate::{
     character::*,
     image::*,
+    page_info::*,
 };
 
 /// Equivalent for start.gg VideogameConnection.
 #[derive(Clone, Default, Serialize, Deserialize)]
-pub struct GGVideogames {
-    pub nodes: Vec<GGVideogame>,
+pub struct GGVideogameConnection {
+    pub nodes:      Vec<GGVideogame>,
+    pub page_info:  Option<Box<GGPageInfo>>,
+}
+
+impl GGVideogameConnection {
+
+    /// Returns the page info of the connection.
+    ///
+    /// Returns empty page info if not set or wasn't queried.
+    pub fn page_info(&self) -> GGPageInfo {
+        let mut result: GGPageInfo = Default::default();
+        if self.page_info.is_some() {
+            result = *self.page_info.as_ref().unwrap().clone();
+        }
+        return result;
+    }
+
 }
 
 /// Equivalent for start.gg Videogame.

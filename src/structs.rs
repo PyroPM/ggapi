@@ -4,14 +4,14 @@
 /// These structures are used internally to get a proper, type-safe output from GraphQL.
 /// You are welcome to use these structures directly, however they are meant to be used only when returned from a query.
 
-// pub mod action_set;
-// pub use action_set::*;
+pub mod action_set;
+pub use action_set::*;
 
 pub mod address;
 pub use address::*;
 
-// pub mod bracket_config;
-// pub use bracket_config::*;
+pub mod bracket_config;
+pub use bracket_config::*;
 
 pub mod character;
 pub use character::*;
@@ -49,8 +49,8 @@ pub use image::*;
 // pub mod league;
 // pub use league::*;
 
-// pub mod match_config;
-// pub use match_config::*;
+pub mod match_config;
+pub use match_config::*;
 
 pub mod page_info;
 pub use page_info::*;
@@ -94,18 +94,32 @@ pub use score::*;
 pub mod seed;
 pub use seed::*;
 
-// pub mod set;
-// pub mod set_slot;
-// pub mod shop;
-// pub mod shop_level;
-// pub mod shop_order_message;
+pub mod set;
+pub use set::*;
+
+pub mod set_slot;
+pub use set_slot::*;
+
+pub mod shop;
+pub use shop::*;
+
+pub mod shop_level;
+pub use shop_level::*;
+
+pub mod shop_order_message;
+pub use shop_order_message::*;
 
 pub mod stage;
 pub use stage::*;
 
-// pub mod standing;
-// pub mod standing_stats;
-// pub mod stations;
+pub mod standing;
+pub use standing::*;
+
+pub mod standing_stats;
+pub use standing_stats::*;
+
+pub mod stations;
+pub use stations::*;
 
 pub mod stream;
 pub use stream::*;

@@ -11,15 +11,33 @@ use serde::{
 
 use crate::{
     entrant::*,
+    page_info::*,
     phase::*,
     phase_group::*,
+    standing::*,
     tournament::*,
 };
 
 /// Equivalent for start.gg EventConnection.
 #[derive(Clone, Default, Serialize, Deserialize)]
-pub struct GGEvents {
-    pub nodes: Vec<GGEvent>,
+pub struct GGEventConnection {
+    pub nodes:      Vec<GGEvent>,
+    pub page_info:  Option<Box<GGPageInfo>>,
+}
+
+impl GGEventConnection {
+
+    /// Returns the page info of the connection.
+    ///
+    /// Returns empty page info if not set or wasn't queried.
+    pub fn page_info(&self) -> GGPageInfo {
+        let mut result: GGPageInfo = Default::default();
+        if self.page_info.is_some() {
+            result = *self.page_info.as_ref().unwrap().clone();
+        }
+        return result;
+    }
+
 }
 
 /// Equivalent for start.gg Event.
@@ -48,7 +66,7 @@ pub struct GGEvent {
 
     #[serde(rename(serialize = "deckSubmissionDeadline",    deserialize = "deckSubmissionDeadline"))]
     pub deck_submission_deadline:   Option<i64>,
-    pub entrants:                   Option<GGEntrants>,
+    pub entrants:                   Option<GGEntrantConnection>,
 
     #[serde(rename(serialize = "hasDecks",                  deserialize = "hasDecks"))]
     pub has_decks:                  Option<bool>,
@@ -84,7 +102,7 @@ pub struct GGEvent {
     pub ruleset_id:                 Option<i64>,
     // pub sets:                       Option<GGSets>,
     pub slug:                       Option<String>,
-    // pub standings:                  Option<GGStandings>,
+    pub standings:                  Option<GGStandingConnection>,
 
     #[serde(rename(serialize = "startAt",                   deserialize = "startAt"))]
     pub start_at:                   Option<i64>,
@@ -112,6 +130,7 @@ pub struct GGEvent {
     pub user_entrant:               Option<Box<GGEntrant>>,
     // pub videogame:                  Option<GGVideogame>,
     // pub waves:                      Option<Vec<GGWave>>,
+
 }
 
 impl GGEvent {
@@ -327,6 +346,19 @@ impl GGEvent {
         let mut result: String = "".to_string();
         if self.slug.is_some() {
             result = self.slug.clone().unwrap().clone();
+        }
+        return result;
+    }
+
+    /// Returns the standings of the event.
+    ///
+    /// Returns an empty vector if not set or wasn't queried.
+    pub fn standings(&self) -> Vec<GGStanding> {
+        let mut result: Vec<GGStanding> = Vec::new();
+        if self.standings.is_some() {
+            for standing in &self.standings.as_ref().unwrap().nodes {
+                result.push(standing.clone());
+            }
         }
         return result;
     }

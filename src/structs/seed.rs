@@ -6,11 +6,34 @@ use serde::{
 
 use crate::{
     entrant::*,
+    page_info::*,
     phase::*,
     phase_group::*,
     player::*,
     progression::*,
 };
+
+/// Equivalent for start.gg SeedConnection.
+#[derive(Clone, Serialize, Deserialize)]
+pub struct GGSeedConnection {
+    pub nodes:      Vec<GGSeed>,
+    pub page_info:  Option<Box<GGPageInfo>>,
+}
+
+impl GGSeedConnection {
+
+    /// Returns the page info of the connection.
+    ///
+    /// Returns empty page info if not set or wasn't queried.
+    pub fn page_info(&self) -> GGPageInfo {
+        let mut result: GGPageInfo = Default::default();
+        if self.page_info.is_some() {
+            result = *self.page_info.as_ref().unwrap().clone();
+        }
+        return result;
+    }
+
+}
 
 /// Equivalent for start.gg Seed.
 ///

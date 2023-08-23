@@ -9,13 +9,16 @@ use gql_client::{
 use std::collections::HashMap;
 use serde::Serialize;
 
-pub mod structs;
+pub mod enums;
+pub use enums::*;
 
+pub mod structs;
 pub use structs::*;
 
 /// Variables for a query.
 #[derive(Serialize)]
 pub struct Vars {
+    pub id: u32,
     pub slug: String,
     pub page: u32,
     pub per_page: u32,
@@ -81,7 +84,68 @@ pub async fn get_tournament_info(
     }
     "#;
 
-    let vars = Vars { slug: slug.to_string(), page: 1, per_page: 100 };
+    /*let query = r#"
+    query GetTournamentInfo($slug: String!) {
+        tournament(slug: $slug) {
+            id
+            name
+            slug
+            shortSlug
+            startAt
+            events {
+                id
+                name
+                phases {
+                    id
+                    name
+                    phaseGroups(query: { page: 1, perPage: 100 }) {
+                        nodes {
+                            id
+                            displayIdentifier
+                        }
+                    }
+                }
+                slug
+            }
+        }
+    }
+    "#;*/
+
+    let vars = Vars { id: 0, slug: slug.to_string(), page: 1, per_page: 100 };
+
+    return execute_query(token, query, vars).await;
+}
+
+/// Get all of the sets in a given phase group.
+///
+/// Returns a list of sets including the set name and entrants.
+pub async fn get_sets_from_phase_group(
+    id: u32,
+    token: &str,
+) -> GGData {
+
+    let query = r#"
+    query PhaseGroupSets($id: ID!){
+        phaseGroup(id: $id){
+            id
+            displayIdentifier
+            sets(page: 1, perPage: 100, sortType: STANDARD) {
+                nodes {
+                    id
+                    fullRoundText
+                    slots {
+                        entrant {
+                            id
+                            name
+                        }
+                    }
+                }
+            }
+        }
+    }
+    "#;
+
+    let vars = Vars { id: id, slug: "".to_string(), page: 1, per_page: 100 };
 
     return execute_query(token, query, vars).await;
 }

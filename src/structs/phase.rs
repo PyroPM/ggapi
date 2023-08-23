@@ -6,6 +6,8 @@ use serde::{
 
 use crate::{
     event::*,
+    phase_group::*,
+    set::*,
 };
 
 /// Equivalent for start.gg Phase.
@@ -32,12 +34,13 @@ pub struct GGPhase {
     #[serde(rename(serialize = "numSeeds",      deserialize = "numSeeds"))]
     pub num_seeds:                  Option<i64>,
 
-    // pub phase_groups:               Option<GGPhaseGroups>,
+    #[serde(rename(serialize = "phaseGroups",   deserialize = "phaseGroups"))]
+    pub phase_groups:               Option<GGPhaseGroupConnection>,
 
     #[serde(rename(serialize = "phaseOrder",    deserialize = "phaseOrder"))]
     pub phase_order:                Option<i64>,
     // pub seeds:                      Option<GGSeeds>,
-    // pub sets:                       Option<GGSets>,
+    pub sets:                       Option<GGSetConnection>,
     pub state:                      Option<i64>,
     // pub waves:                      Option<GGWave>,
 
@@ -122,6 +125,19 @@ impl GGPhase {
         return result;
     }
 
+    /// Returns the phase groups in the phase.
+    ///
+    /// Returns an empty vector if not set or wasn't queried.
+    pub fn phase_groups(&self) -> Vec<GGPhaseGroup> {
+        let mut result: Vec<GGPhaseGroup> = Vec::new();
+        if self.phase_groups.is_some() {
+            for phase_group in &self.phase_groups.as_ref().unwrap().nodes {
+                result.push(phase_group.clone());
+            }
+        }
+        return result;
+    }
+
     /// Returns the phase order of the phase.
     ///
     /// Returns zero if not set or wasn't queried.
@@ -129,6 +145,19 @@ impl GGPhase {
         let mut result: i64 = 0;
         if self.phase_order.is_some() {
             result = self.phase_order.unwrap().clone();
+        }
+        return result;
+    }
+
+    /// Returns the sets in the phase.
+    ///
+    /// Returns an empty vector if not set or wasn't queried.
+    pub fn sets(&self) -> Vec<GGSet> {
+        let mut result: Vec<GGSet> = Vec::new();
+        if self.sets.is_some() {
+            for set in &self.sets.as_ref().unwrap().nodes {
+                result.push(set.clone());
+            }
         }
         return result;
     }

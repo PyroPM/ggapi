@@ -10,13 +10,31 @@ use serde::{
 };
 
 use crate::{
+    page_info::*,
     phase::*,
+    set::*,
 };
 
 /// Equivalent for start.gg PhaseGroupConnection.
 #[derive(Clone, Serialize, Deserialize)]
-pub struct GGPhaseGroups {
-    pub nodes: Vec<GGPhaseGroup>,
+pub struct GGPhaseGroupConnection {
+    pub nodes:      Vec<GGPhaseGroup>,
+    pub page_info:  Option<Box<GGPageInfo>>,
+}
+
+impl GGPhaseGroupConnection {
+
+    /// Returns the page info of the connection.
+    ///
+    /// Returns empty page info if not set or wasn't queried.
+    pub fn page_info(&self) -> GGPageInfo {
+        let mut result: GGPageInfo = Default::default();
+        if self.page_info.is_some() {
+            result = *self.page_info.as_ref().unwrap().clone();
+        }
+        return result;
+    }
+
 }
 
 /// Equivalent for start.gg PhaseGroup.
@@ -49,7 +67,7 @@ pub struct GGPhaseGroup {
     // pub rounds:                     Option<GGRound>,
     // pub seed_map:                   JSON,
     // pub seeds:                      Option<GGSeeds>,
-    // pub sets:                       Option<GGSets>,
+    pub sets:                       Option<GGSetConnection>,
     // pub standings:                  Option<GGStandings>,
 
     #[serde(rename(serialize = "startAt",                   deserialize = "startAt"))]
@@ -136,6 +154,19 @@ impl GGPhaseGroup {
         let mut result: GGPhase = Default::default();
         if self.phase.is_some() {
             result = *self.phase.as_ref().unwrap().clone();
+        }
+        return result;
+    }
+
+    /// Returns the sets in the phase group.
+    ///
+    /// Returns an empty vector if not set or wasn't queried.
+    pub fn sets(&self) -> Vec<GGSet> {
+        let mut result: Vec<GGSet> = Vec::new();
+        if self.sets.is_some() {
+            for set in &self.sets.as_ref().unwrap().nodes {
+                result.push(set.clone());
+            }
         }
         return result;
     }

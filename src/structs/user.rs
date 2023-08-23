@@ -19,23 +19,23 @@ use crate::{
 #[derive(Clone, Default, Serialize, Deserialize)]
 pub struct GGUser {
 
-    // pub authorizations: Option<Vec<GGProfileAuthorization>>
-    pub bio:            Option<String>,
-    pub birthday:       Option<String>,
-    pub discriminator:  Option<String>,
-    pub email:          Option<String>,
-    pub events:         Option<GGEvents>,
+    // pub authorizations:     Option<Vec<GGProfileAuthorization>>
+    pub bio:                Option<String>,
+    pub birthday:           Option<String>,
+    pub discriminator:      Option<String>,
+    pub email:              Option<String>,
+    pub events:             Option<GGEventConnection>,
 
     #[serde(rename(serialize = "genderPronoun", deserialize = "genderPronoun"))]
-    pub gender_pronoun: Option<String>,
-    pub id:             Option<i64>,
-    // pub images:         Option<Vec<Image>>
-    // pub leagues:        Option<GGLeagues>
-    // pub location:       Option<GGAddress>
-    pub name:           Option<String>,
-    pub player:         Option<Box<GGPlayer>>,
-    pub slug:           Option<String>,
-    pub tournaments:    Option<GGTournaments>,
+    pub gender_pronoun:     Option<String>,
+    pub id:                 Option<i64>,
+    // pub images:             Option<Vec<Image>>
+    // pub leagues:            Option<GGLeagues>
+    // pub location:           Option<GGAddress>
+    pub name:               Option<String>,
+    pub player:             Option<Box<GGPlayer>>,
+    pub slug:               Option<String>,
+    pub tournaments:        Option<GGTournamentConnection>,
 
 }
 
