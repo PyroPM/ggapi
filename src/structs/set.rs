@@ -10,6 +10,7 @@ use serde::{
 };
 
 use crate::{
+    enums::*,
     event::*,
     game::*,
     image::*,
@@ -67,7 +68,7 @@ pub struct GGSet {
 
     #[serde(rename(serialize = "hasPlaceholder",    deserialize = "hasPlaceholder"))]
     pub has_placeholder:    Option<bool>,
-    pub id:                 Option<i64>,
+    pub id:                 Option<GGID>,
     pub identifier:         Option<String>,
     pub images:             Option<Vec<GGImage>>,
 
@@ -200,10 +201,13 @@ impl GGSet {
     /// Returns the id of the set.
     ///
     /// Returns zero if not set or wasn't queried.
-    pub fn id(&self) -> i64 {
-        let mut result: i64 = 0;
+    pub fn id(&self) -> GGID {
+        let mut result: GGID = GGID::Int(0);
         if self.id.is_some() {
-            result = self.id.unwrap().clone();
+            match self.id.clone().unwrap() {
+                GGID::Int(_) => result = self.id.as_ref().unwrap().clone(),
+                GGID::String(_) => result = self.id.as_ref().unwrap().clone(),
+            };
         }
         return result;
     }

@@ -15,7 +15,7 @@ use serde::{
 #[serde(untagged)]
 pub enum GGID {
     
-    Int(isize),
+    Int(i64),
     String(String),
 
 }

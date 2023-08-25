@@ -10,6 +10,7 @@ use serde::{
 };
 
 use crate::{
+    enums::*,
     page_info::*,
     phase::*,
     set::*,
@@ -57,7 +58,7 @@ pub struct GGPhaseGroup {
 
     #[serde(rename(serialize = "firstRoundTime",    deserialize = "firstRoundTime"))]
     pub first_round_time:           Option<i64>,
-    pub id:                         Option<i64>,
+    pub id:                         Option<GGID>,
 
     #[serde(rename(serialize = "numRounds",         deserialize = "numRounds"))]
     pub num_rounds:                 Option<i64>,
@@ -128,10 +129,13 @@ impl GGPhaseGroup {
     /// Returns the id of the phase group.
     ///
     /// Returns zero if not set or wasn't queried.
-    pub fn id(&self) -> i64 {
-        let mut result: i64 = 0;
+    pub fn id(&self) -> GGID {
+        let mut result: GGID = GGID::Int(0);
         if self.id.is_some() {
-            result = self.id.unwrap().clone();
+            match self.id.clone().unwrap() {
+                GGID::Int(_) => result = self.id.as_ref().unwrap().clone(),
+                GGID::String(_) => result = self.id.as_ref().unwrap().clone(),
+            };
         }
         return result;
     }
