@@ -10,6 +10,7 @@ use serde::{
 };
 
 use crate::{
+    enums::*,
     event::*,
     image::*,
     page_info::*,
@@ -73,7 +74,7 @@ pub struct GGTournament {
     #[serde(rename(serialize = "hasOnlineEvents",           deserialize = "hasOnlineEvents"))]
     pub has_online_events:              Option<bool>,
     pub hashtag:                        Option<String>,
-    pub id:                             Option<i64>,
+    pub id:                             Option<GGID>,
     pub images:                         Option<Vec<GGImage>>,
     
     #[serde(rename(serialize = "isOnline",                  deserialize = "isOnline"))]
@@ -281,10 +282,13 @@ impl GGTournament {
     /// Returns the id of the tournament.
     ///
     /// Returns zero if not set or wasn't queried.
-    pub fn id(&self) -> i64 {
-        let mut result: i64 = 0;
+    pub fn id(&self) -> GGID {
+        let mut result: GGID = GGID::Int(0);
         if self.id.is_some() {
-            result = self.id.unwrap().clone();
+            match self.id.clone().unwrap() {
+                GGID::Int(_) => result = self.id.as_ref().unwrap().clone(),
+                GGID::String(_) => result = self.id.as_ref().unwrap().clone(),
+            };
         }
         return result;
     }

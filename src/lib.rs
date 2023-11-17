@@ -18,7 +18,7 @@ pub use structs::*;
 /// Variables for a query.
 #[derive(Serialize)]
 pub struct Vars {
-    pub id: u32,
+    pub id: GGID,
     pub slug: String,
     pub page: u32,
     pub per_page: u32,
@@ -31,7 +31,7 @@ pub async fn execute_query(
     token: &str,
     query: &str,
     vars: Vars,
-) -> GGData {
+) -> GGResponse {
 
     let mut headers = HashMap::new();
     headers.insert("authorization".to_string(), format!("Bearer {}", token));
@@ -44,7 +44,7 @@ pub async fn execute_query(
     };
 
     let client = Client::new_with_config(config);
-    let data = client.query_with_vars::<GGData, Vars>(query, vars).await.unwrap();
+    let data = client.query_with_vars::<GGResponse, Vars>(query, vars).await.unwrap();
 
     return data.unwrap();
 }
@@ -55,7 +55,7 @@ pub async fn execute_query(
 pub async fn get_tournament_info(
     slug: &str,
     token: &str,
-) -> GGData {
+) -> GGResponse {
 
     let query = r#"
     query GetTournamentInfo($slug: String!) {
@@ -84,34 +84,83 @@ pub async fn get_tournament_info(
     }
     "#;
 
-    /*let query = r#"
-    query GetTournamentInfo($slug: String!) {
-        tournament(slug: $slug) {
+    let vars = Vars { id: GGID::Int(0), slug: slug.to_string(), page: 1, per_page: 100 };
+
+    return execute_query(token, query, vars).await;
+}
+
+/// Get events from a tournament.
+///
+/// Returns a list of events within a tournament.
+pub async fn get_events_from_tournament(
+    id: GGID,
+    token: &str,
+) -> GGResponse {
+
+    let query = r#"
+    query GetEvents($id: ID!) {
+        tournament(id: $id) {
             id
-            name
-            slug
-            shortSlug
-            startAt
             events {
                 id
                 name
-                phases {
-                    id
-                    name
-                    phaseGroups(query: { page: 1, perPage: 100 }) {
-                        nodes {
-                            id
-                            displayIdentifier
-                        }
-                    }
-                }
                 slug
             }
         }
     }
-    "#;*/
+    "#;
 
-    let vars = Vars { id: 0, slug: slug.to_string(), page: 1, per_page: 100 };
+    let vars = Vars { id: id, slug: "".to_string(), page: 1, per_page: 100 };
+
+    return execute_query(token, query, vars).await;
+}
+
+/// Get phases from an event.
+///
+/// Returns a list of phases within a event.
+pub async fn get_phases_from_event(
+    id: GGID,
+    token: &str,
+) -> GGResponse {
+
+    let query = r#"
+    query GetPhases($id: ID!) {
+        event(id: $id) {
+            phases {
+                id
+                name
+            }
+        }
+    }
+    "#;
+
+    let vars = Vars { id: id, slug: "".to_string(), page: 1, per_page: 100 };
+
+    return execute_query(token, query, vars).await;
+}
+
+/// Get phase groups from a phase.
+///
+/// Returns a list of phase groups within a phase.
+pub async fn get_phase_groups_from_phase(
+    id: GGID,
+    token: &str,
+) -> GGResponse {
+
+    let query = r#"
+    query GetPhaseGroups($id: ID!) {
+        phase(id: $id) {
+            phaseGroups(query: { page: 1, perPage: 100 }) {
+                nodes {
+                    id
+                    displayIdentifier
+                }
+            }
+        }
+    }
+    "#;
+
+    let vars = Vars { id: id, slug: "".to_string(), page: 1, per_page: 100 };
 
     return execute_query(token, query, vars).await;
 }
@@ -120,25 +169,102 @@ pub async fn get_tournament_info(
 ///
 /// Returns a list of sets including the set name and entrants.
 pub async fn get_sets_from_phase_group(
-    id: u32,
+    id: GGID,
     token: &str,
-) -> GGData {
+) -> GGResponse {
 
     let query = r#"
     query PhaseGroupSets($id: ID!){
         phaseGroup(id: $id){
-            id
-            displayIdentifier
             sets(page: 1, perPage: 100, sortType: STANDARD) {
                 nodes {
                     id
                     fullRoundText
+                    identifier
                     slots {
                         entrant {
                             id
                             name
                         }
                     }
+                }
+            }
+        }
+    }
+    "#;
+
+    let vars = Vars { id: id, slug: "".to_string(), page: 1, per_page: 100 };
+
+    return execute_query(token, query, vars).await;
+}
+
+/// Get specific set and various information about it.
+///
+/// Returns a set including the set name, entrants, and all of the participant information.
+pub async fn get_entrants_from_set(
+    id: GGID,
+    token: &str,
+) -> GGResponse {
+
+    let query = r#"
+    query SetEntrants($id: ID!){
+        set(id: $id){
+            id
+            event {
+                name
+            }
+            fullRoundText
+            identifier
+            slots {
+                standing {
+                    stats {
+                        score {
+                            label
+                            value
+                        }
+                    }
+                }
+                entrant {
+                    id
+                    name
+                    participants {
+                        id
+                        gamerTag
+                        user {
+                            discriminator
+                            name
+                        }
+                    }
+                }
+            }
+        }
+    }
+    "#;
+
+    let vars = Vars { id: id, slug: "".to_string(), page: 1, per_page: 100 };
+
+    return execute_query(token, query, vars).await;
+}
+
+/// Get information about a specific entrant.
+///
+/// Returns various important information regarding an entrant, including the name, tag and discriminator of each participant.
+pub async fn get_entrant_info(
+    id: GGID,
+    token: &str,
+) -> GGResponse {
+
+    let query = r#"
+    query EntrantInfo($id: ID!) {
+        entrant(id: $id) {
+            id
+            name
+            participants {
+                id
+                gamerTag
+                user {
+                    discriminator
+                    name
                 }
             }
         }

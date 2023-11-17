@@ -11,6 +11,7 @@ use crate::{
     phase::*,
     phase_group::*,
     player::*,
+    set::*,
     tournament::*,
     user::*,
     videogame::*,
@@ -22,7 +23,7 @@ use crate::{
 /// Given each is an option and not a requirement, a method is included for each element with the same name.
 /// These methods will unwrap and return the proper value without any unwrapping or references needed.
 /// Certain methods (see tournaments()) will return a vector of the data type instead of a connection to a vector, done to simplify the API and make the start.gg api easier to work with.
-#[derive(Serialize, Deserialize)]
+#[derive(Clone, Serialize, Deserialize)]
 pub struct GGData {
 
     #[serde(rename(serialize = "currentUser",   deserialize = "currentUser"))]
@@ -38,7 +39,7 @@ pub struct GGData {
     pub phase_group:    Option<Box<GGPhaseGroup>>,
     pub player:         Option<Box<GGPlayer>>,
     // pub seed:           Option<seed::GGSeed>,
-    // pub set:            Option<set::GGSet>,
+    pub set:            Option<Box<GGSet>>,
     // pub shop:           Option<shop::GGShop>,
     // pub stream:         Option<streams::GGStreams>,
     // pub stream_queue:   Option<stream_queue::GGStreamQueue>,
@@ -126,6 +127,17 @@ impl GGData {
         let mut result: GGPlayer = Default::default();
         if self.player.is_some() {
             result = *self.player.as_ref().unwrap().clone();
+        }
+        return result;
+    }
+
+    /// Returns the set.
+    ///
+    /// Returns an empty set if not set or wasn't queried.
+    pub fn set(&self) -> GGSet {
+        let mut result: GGSet = Default::default();
+        if self.set.is_some() {
+            result = *self.set.as_ref().unwrap().clone();
         }
         return result;
     }

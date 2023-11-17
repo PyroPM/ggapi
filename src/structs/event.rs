@@ -11,6 +11,7 @@ use serde::{
 
 use crate::{
     entrant::*,
+    enums::*,
     page_info::*,
     phase::*,
     phase_group::*,
@@ -73,7 +74,7 @@ pub struct GGEvent {
 
     #[serde(rename(serialize = "hasTasks",                  deserialize = "hasTasks"))]
     pub has_tasks:                  Option<bool>,
-    pub id:                         Option<i64>,
+    pub id:                         Option<GGID>,
     // pub images:                     Option<Vec<GGImage>>,
 
     #[serde(rename(serialize = "isOnline",                  deserialize = "isOnline"))]
@@ -239,10 +240,13 @@ impl GGEvent {
     /// Returns the id of the event.
     ///
     /// Returns zero if not set or wasn't queried.
-    pub fn id(&self) -> i64 {
-        let mut result: i64 = 0;
+    pub fn id(&self) -> GGID {
+        let mut result: GGID = GGID::Int(0);
         if self.id.is_some() {
-            result = self.id.unwrap().clone();
+            match self.id.clone().unwrap() {
+                GGID::Int(_) => result = self.id.as_ref().unwrap().clone(),
+                GGID::String(_) => result = self.id.as_ref().unwrap().clone(),
+            };
         }
         return result;
     }
