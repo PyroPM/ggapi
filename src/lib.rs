@@ -44,9 +44,15 @@ pub async fn execute_query(
     };
 
     let client = Client::new_with_config(config);
-    let data = client.query_with_vars::<GGResponse, Vars>(query, vars).await.unwrap();
-
-    return data.unwrap();
+    let data = client.query_with_vars::<GGResponse, Vars>(query, vars).await;
+    let response: GGResponse;
+    match data {
+        Ok(data) => response = data.unwrap(),
+        Err(e) => {
+            response = GGResponse::Error(String::from(e.message()));
+        },
+    }
+    return response;
 }
 
 /// Get some basic tournament information.

@@ -1,6 +1,6 @@
 [package]
 name = "ggapi"
-version = "0.2.4"
+version = "0.2.5"
 edition = "2021"
 license = "MIT"
 description = "A library for communicating with start.gg's API."
@@ -10,6 +10,6 @@ repository = "https://github.com/pyropm/ggapi"
 readme = "README.md"
 
 [dependencies]
-chrono = "0.4.26"
+chrono = "0.4.38"
 gql_client = "1.0.7"
-serde = "1.0.174"
+serde = "1.0.204"

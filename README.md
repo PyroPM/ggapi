@@ -4,14 +4,21 @@ A library for communicating with [start.gg](https://start.gg/)'s API.
 ## Usage
 You can use helper functions to get values off of start.gg:
 ```rust
-let data = get_tournament_info(
+let data = ggapi::get_tournament_info(
     "evo-2023","INSERT_TOKEN_HERE"
 ).await;
 
-println!("{}", data.tournament().name());
-println!("{}", data.tournament().start_at().to_string());
-println!("{}", data.tournament().slug());
-println!("{}", data.tournament().short_slug());
+match data {
+    ggapi::GGResponse::Data(data) => {
+        println!("{}", data.tournament().name());
+        println!("{}", data.tournament().start_at().to_string());
+        println!("{}", data.tournament().slug());
+        println!("{}", data.tournament().short_slug());
+    }
+    ggapi::GGResponse::Error(data) => {
+        println!("ggapi error: {}", data);
+    }
+}
 ```
 Each helper function will get a small specific set of values instead of a large query. See the notes below to see the reasoning why.
 
@@ -56,7 +63,7 @@ println!("{}", data.tournament().slug());
 println!("{}", data.tournament().short_slug());
 ```
 This example does the same as the helper function get_tournament_info(), but it lets you customize the query to your liking.
-> When using execute_query() directly like this, you are not guaranteed to get a safe value back. Mainly, you are likely to hit the 1000 object limit if you are working with a large tournament, so try and use the helper functions whenever possible!
+> When using execute_query() directly like this, you are not guaranteed to get a safe value back. Aside from potential errors, you are likely to hit the 1000 object limit if you are working with a large tournament, so try and use the helper functions whenever possible!
 
 ## Notes
 - [start.gg](https://start.gg/) has a rate limit and additionally a limit to 1000 objects per query response. If you are working with a large tournament with a significant number of events and attendees, you may run into this limit.
@@ -68,29 +75,19 @@ If you want to help contribute to the project, pull requests are encouraged! Mos
 
 ## Todo
 - Complete remaining structures missing from the library
-    - **action_set (ActionSet)**
-    - **bracket_config (BracketConfig)**
-    - ~~event_team (EventTeam, EventTeamConnection)~~
-    - ~~global_team (GlobalTeam)~~
-    - **league (League, LeagueConnection)**
-    - **match_config (MatchConfig)**
-    - ~~page_info (PageInfo)~~
-    - **set (Set, SetConnection)**
-    - **set_slot (SetSlot)**
-    - **shop (Shop)**
-    - **shop_level (ShopLevel, ShopLevelConnection)**
-    - **shop_order_message (ShopOrderMessage, ShopOrderMesageConnection)**
-    - **standing (Standing, StandingConnection)**
-    - **standing_stats (StandingStats)**
-    - **stations (Stations, StationsConnection)**
-    - ~~stream_queue (StreamQueue)~~
-    - ~~streams (Streams)~~
-    - ~~team (Team, TeamConnection)~~
-    - ~~team_action_set (TeamActionSet)~~
-    - ~~team_member (TeamMember)~~
-    - ~~team_roster_size (TeamRosterSize)~~
-    - ~~tournament_links (TournamentLinks)~~
-    - **wave (Wave)**
+    - action_set (ActionSet)
+    - bracket_config (BracketConfig)
+    - league (League, LeagueConnection)
+    - match_config (MatchConfig)
+    - set (Set, SetConnection)
+    - set_slot (SetSlot)
+    - shop (Shop)
+    - shop_level (ShopLevel, ShopLevelConnection)
+    - shop_order_message (ShopOrderMessage, ShopOrderMesageConnection)
+    - standing (Standing, StandingConnection)
+    - standing_stats (StandingStats)
+    - stations (Stations, StationsConnection)
+    - wave (Wave)
 - Finish existing structure implementations by adding missing types
     - Some types that were made first had a few missing values while the rest of the structures were being implemented. Those were commented out in each structure where they would be placed, but have not yet been completed implemented. Once every structure is implemented above, complete a sweep of each structure and fill out the rest of the structure.
 - Implement enums for start.gg types
@@ -111,10 +108,7 @@ If you want to help contribute to the project, pull requests are encouraged! Mos
     - tournament_pagination_sort (TournamentPaginationSort)
 - Figure out how to deal with JSON types
 - Error Handling
-    - Figure out how to deal with start.gg timeouts (internet issues)
     - Figure out how to deal with queries that are too large
-- Handle passing variables better
-    - Making a new Vars structure with a bunch of empty values is not ideal, neither is wrapping values in Some() just to use it
 - Unplanned
     - Mutations?
     - Input Objects?
